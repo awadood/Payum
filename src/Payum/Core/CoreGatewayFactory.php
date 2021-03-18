@@ -1,6 +1,7 @@
 <?php
 namespace Payum\Core;
 
+use Http\Adapter\Guzzle7\Client as HttpGuzzle7Client;
 use Http\Adapter\Guzzle6\Client as HttpGuzzle6Client;
 use Http\Adapter\Guzzle5\Client as HttpGuzzle5Client;
 use Http\Adapter\Buzz\Client as HttpBuzzClient;
@@ -105,6 +106,10 @@ class CoreGatewayFactory implements GatewayFactoryInterface
             'httplug.client'=>function (ArrayObject $config) {
                 if (class_exists(HttpClientDiscovery::class)) {
                     return HttpClientDiscovery::find();
+                }
+
+                if (class_exists(HttpGuzzle7Client::class)) {
+                    return new HttpGuzzle7Client();
                 }
 
                 if (class_exists(HttpGuzzle6Client::class)) {
